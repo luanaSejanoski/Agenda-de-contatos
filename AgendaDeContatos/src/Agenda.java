@@ -1,70 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
- 
+
 class Agenda {
-    public static void main(String[] args) {
- 
-        Scanner scanner = new Scanner(System.in);
-        ArrayList<Contato> lista = new ArrayList<>();
- 
-        int opcao;
- 
-        while (true) {
- 
-            menuPrincipal();
-            opcao = scanner.nextInt();
-            scanner.nextLine(); /* Limpar buffer */
-            
-            if (opcao == 5) {
-                break;
-            }
- 
-            switch (opcao) {
- 
-                case 1:
-                    adicionarContato(scanner, lista);
-                    break;
-                case 2:
-                     while(true) {
-                        menuEditar();
-                        opcao = scanner.nextInt();
-                        
-                        if(opcao == 3){
-                             break;
-                        }
-                                
-                        switch (opcao) {
- 
-                            case 1:
-                                EditarTelefone((scanner), lista);
-                                break;
-                            case 2:
-                            default:
-                                System.out.println("Opcao invalida!");
-                        }
-                    }
- 
-                   break;
- 
-                case 3:
-                    excluirContato(scanner, lista);
-                    break;
-                case 4:
-                    listarContatos(lista);
-                    break;
- 
-                 default:
-                    System.out.println("Opcao invalida!");
-            }
- 
-            System.out.println();
-        }
- 
-        scanner.close();
-    }
-    
-    public static void menuPrincipal(){
-        System.out.println("======= AGENDA =======");
+public static void menuPrincipal(){
+        System.out.println("\n======= AGENDA =======");
         System.out.println("[1] Adicionar contato");
         System.out.println("[2] Editar contato");
         System.out.println("[3] Excluir contato");
@@ -140,7 +79,8 @@ class Agenda {
 
         System.out.println("Digite o contato que deseja editar: ");
         String contato = scanner.nextLine();
-        scanner.nextLine();
+
+        boolean encontrado = false;
 
         for(int i = 0; i < lista.size(); i++){
             if(lista.get(i).getNome().equalsIgnoreCase(contato)){
@@ -149,13 +89,106 @@ class Agenda {
 
                 lista.get(i).setTelefone(novoTelefone);
                 System.out.println("Telefone atualizado!");
-            }else{
-                System.out.println("Contato não encontrado!");
-                return;
+                encontrado = true;
+                break;
             }
-
         }
+        if(!encontrado){
+            System.out.println("Contato não encontrado!");
+        } 
+    }
+
+    public static void EditarEmail(Scanner scanner, ArrayList<Contato> lista){
+        if(lista.isEmpty()){
+            System.out.println("Agenda vazia!");
+            return;
+        }
+
+        System.out.println("Digite o contato que deseja editar: ");
+        String contato = scanner.nextLine();
+
+        boolean encontrado = false;
+
+        for(int i = 0; i < lista.size(); i++){
+            if(lista.get(i).getNome().equalsIgnoreCase(contato)){
+                System.out.println("Editar email: ");
+                String novoEmail = scanner.nextLine();
+
+                lista.get(i).setEmail(novoEmail);
+                System.out.println("Email atualizado!");
+                encontrado = true;
+                break;
+            }
+        }
+        if(!encontrado){
+            System.out.println("Contato não encontrado!");
+        } 
+    }
+
+    public static void main(String[] args) {
+ 
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Contato> lista = new ArrayList<>();
+ 
+        int opcao;
+ 
+        while (true) {
+ 
+            menuPrincipal();
+            opcao = scanner.nextInt();
+            scanner.nextLine(); /* Limpar buffer */
+            
+            if (opcao == 5) {
+                System.out.println("Programa encerrado!");
+                break;
+            }
+ 
+            switch(opcao) {
+ 
+                case 1:
+                    adicionarContato(scanner, lista);
+                    break;
+                case 2:
+                     while(true) {
+                        menuEditar();
+                        opcao = scanner.nextInt();
+                        scanner.nextLine();/* Limpar buffer */
+                        
+                        if(opcao == 3){
+                             break;
+                        }
+                                
+                        switch (opcao) {
+ 
+                            case 1:
+                                EditarTelefone(scanner, lista);
+                                break;
+                            case 2:
+                                EditarEmail(scanner, lista);
+                                break;
+                            default:
+                                System.out.println("Opcao invalida!");
+                        }
+                    }
+                   break;
+ 
+                case 3:
+                    excluirContato(scanner, lista);
+                    break;
+                case 4:
+                    listarContatos(lista);
+                    break;
+ 
+                 default:
+                    System.out.println("Opcao invalida!");
+            }
+ 
+            System.out.println();
+        }
+ 
+        scanner.close();
     }
 }
+
 
  
